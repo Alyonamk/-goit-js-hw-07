@@ -2,7 +2,7 @@
 
 
 import { galleryItems } from "./gallery-items.js";
-// Change code below this line
+
 console.log(galleryItems);
 
 const galleryEl = document.querySelector(".gallery");
@@ -35,15 +35,18 @@ galleryEl.innerHTML = addGalleryMarkup;
 galleryEl.addEventListener("click", onImageClick);
 function onImageClick(event) {
   if (event.target.nodeName !== "IMG") {
+    galleryEl.removeEventListener('keydown', onImageClick)
     return;
   }
-  const fullScreenImg = basicLightbox.create(
-    `<img src="${event.target.dataset.source}" width="800" height="600">`
-  );
+  const dataSrc = event.target.dataset.source;
+	const fullScreenImg = basicLightbox.create(`<img src="${dataSrc}">`);
+
   fullScreenImg.show();
+  
 
   galleryEl.addEventListener("keydown", (event) => {
     if (event.code === "Escape") {
+      galleryEl.removeEventListener('keydown', onImageClick)
       fullScreenImg.close();
     }
   });
